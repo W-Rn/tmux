@@ -11,7 +11,7 @@ if [[ -z "${width:-}" || "$width" == "0" ]]; then
   width=${COLUMNS:-}
 fi
 if [[ -n "${width:-}" && "$width" =~ ^[0-9]+$ ]]; then
-  if (( width < min_width )); then
+  if ((width < min_width)); then
     exit 0
   fi
 fi
@@ -34,12 +34,12 @@ rainbarf_segment=""
 rainbarf_toggle="${TMUX_RAINBARF:-1}"
 
 case "$rainbarf_toggle" in
-  0|false|FALSE|off|OFF|no|NO)
-    rainbarf_toggle="0"
-    ;;
-  *)
-    rainbarf_toggle="1"
-    ;;
+0 | false | FALSE | off | OFF | no | NO)
+  rainbarf_toggle="0"
+  ;;
+*)
+  rainbarf_toggle="1"
+  ;;
 esac
 
 if [[ "$rainbarf_toggle" == "1" ]] && command -v rainbarf >/dev/null 2>&1; then

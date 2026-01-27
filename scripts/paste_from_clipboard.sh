@@ -35,4 +35,3 @@ content=$(printf '%s' "$content" | tr -d '\r')
 
 tmux set-buffer -- "$content"
 tmux paste-buffer -p -d
-

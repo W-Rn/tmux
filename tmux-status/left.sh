@@ -24,7 +24,7 @@ max_width=18
 
 left_narrow_width=${TMUX_LEFT_NARROW_WIDTH:-80}
 is_narrow=0
-[[ "$term_width" =~ ^[0-9]+$ ]] && (( term_width < left_narrow_width )) && is_narrow=1
+[[ "$term_width" =~ ^[0-9]+$ ]] && ((term_width < left_narrow_width)) && is_narrow=1
 
 normalize_session_id() {
   local value="$1"
@@ -49,8 +49,6 @@ extract_index() {
     printf ''
   fi
 }
-
-
 
 sessions=$(tmux list-sessions -F '#{session_id}::#{session_name}' 2>/dev/null || true)
 if [[ -z "$sessions" ]]; then
@@ -78,9 +76,9 @@ while IFS= read -r entry; do
     segment_fg="$active_fg"
   fi
 
-  if (( is_narrow == 1 )); then
-    if (( is_current == 1 )); then
-      label="$trimmed_name"  # active: show TITLE (trim N-)
+  if ((is_narrow == 1)); then
+    if ((is_current == 1)); then
+      label="$trimmed_name" # active: show TITLE (trim N-)
     else
       idx=$(extract_index "$name")
       if [[ -n "$idx" ]]; then
@@ -90,9 +88,9 @@ while IFS= read -r entry; do
       fi
     fi
   else
-    label="$trimmed_name"      # wide: current behavior (TITLE everywhere)
+    label="$trimmed_name" # wide: current behavior (TITLE everywhere)
   fi
-  if (( ${#label} > max_width )); then
+  if ((${#label} > max_width)); then
     label="${label:0:max_width-1}…"
   fi
 
@@ -103,7 +101,7 @@ while IFS= read -r entry; do
   fi
   rendered+="#[fg=${segment_fg},bg=${segment_bg}] ${label} "
   prev_bg="$segment_bg"
-done <<< "$sessions"
+done <<<"$sessions"
 
 if [[ -n "$prev_bg" ]]; then
   rendered+="#[fg=${prev_bg},bg=${status_bg}]${separator}"

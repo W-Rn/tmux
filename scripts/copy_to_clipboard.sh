@@ -19,4 +19,3 @@ elif command -v powershell.exe >/dev/null 2>&1; then
 ${content}
 "@ || true
 fi
-

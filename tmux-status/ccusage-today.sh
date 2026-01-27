@@ -27,7 +27,7 @@ now=$(date +%s)
 # Serve cached value if fresh
 if [[ -f "$CACHE_FILE" ]]; then
   mtime=$(get_mtime "$CACHE_FILE")
-  if [[ -n "${mtime:-}" && $(( now - mtime )) -lt $TTL_SECONDS ]]; then
+  if [[ -n "${mtime:-}" && $((now - mtime)) -lt $TTL_SECONDS ]]; then
     cat "$CACHE_FILE"
     exit 0
   fi
@@ -50,7 +50,8 @@ if mkdir "$LOCK_DIR" 2>/dev/null; then
 
   # Coerce to number and format to 2 decimals, with dollar sign only
   if command -v python3 >/dev/null 2>&1; then
-    formatted=$(COST="$cost" python3 - << 'PY'
+    formatted=$(
+      COST="$cost" python3 - <<'PY'
 import os,sys
 try:
     v=float(os.environ.get('COST','0'))
@@ -65,7 +66,7 @@ PY
   fi
 
   tmp_file="$CACHE_FILE.$$"
-  printf '%s\n' "$formatted" > "$tmp_file"
+  printf '%s\n' "$formatted" >"$tmp_file"
   mv "$tmp_file" "$CACHE_FILE"
   printf '%s\n' "$formatted"
 else
@@ -76,7 +77,7 @@ else
   while :; do
     sleep 0.1
     now=$(date +%s)
-    (( now - start >= LOCK_WAIT )) && break
+    ((now - start >= LOCK_WAIT)) && break
     new_mtime=""
     [[ -f "$CACHE_FILE" ]] && new_mtime=$(get_mtime "$CACHE_FILE")
     if [[ -n "$new_mtime" && "$new_mtime" != "$initial_mtime" ]]; then
