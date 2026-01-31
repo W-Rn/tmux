@@ -18,8 +18,10 @@ inactive_bg="#373b41"
 inactive_fg="#c5c8c6"
 active_bg="${TMUX_THEME_COLOR:-#b294bb}"
 active_fg="#1d1f21"
-separator=""
+# separator=""
+separator=""
 left_cap="█"
+# left_cap=""
 max_width=18
 
 left_narrow_width=${TMUX_LEFT_NARROW_WIDTH:-80}
@@ -95,11 +97,11 @@ while IFS= read -r entry; do
   fi
 
   if [[ -z "$prev_bg" ]]; then
-    rendered+="#[fg=${segment_bg},bg=${status_bg}]${left_cap}"
+    rendered+="#[fg=${segment_bg},bg=${status_bg},bold]${left_cap}"
   else
-    rendered+="#[fg=${prev_bg},bg=${segment_bg}]${separator}"
+    rendered+="#[fg=${prev_bg},bg=${segment_bg},bold]${separator}"
   fi
-  rendered+="#[fg=${segment_fg},bg=${segment_bg}] ${label} "
+  rendered+="#[fg=${segment_fg},bg=${segment_bg},bold] ${label} "
   prev_bg="$segment_bg"
 done <<<"$sessions"
 

@@ -21,13 +21,15 @@ if [[ -z "$status_bg" || "$status_bg" == "default" ]]; then
   status_bg=black
 fi
 
-segment_bg="#3b4252"
+# segment_bg="#3b4252"
 segment_fg="#eceff4"
 # Host (domain) colors to mirror left active style
 host_bg="${TMUX_THEME_COLOR:-#b294bb}"
 host_fg="#1d1f21"
-separator=""
+# separator=""
+separator=""
 right_cap="█"
+# right_cap=""
 hostname=$(hostname -s 2>/dev/null || hostname 2>/dev/null || printf 'host')
 rainbarf_bg="#2e3440"
 rainbarf_segment=""
@@ -57,7 +59,7 @@ host_connector_bg="$status_bg"
 if [[ -n "$rainbarf_segment" ]]; then
   host_connector_bg="$rainbarf_bg"
 fi
-host_prefix=$(printf '#[fg=%s,bg=%s]%s#[fg=%s,bg=%s] ' \
+host_prefix=$(printf '#[fg=%s,bg=%s]%s#[fg=%s,bg=%s,bold] ' \
   "$host_bg" "$host_connector_bg" "$separator" \
   "$host_fg" "$host_bg")
 
